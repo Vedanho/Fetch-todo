@@ -1,4 +1,7 @@
 window.addEventListener("DOMContentLoaded", () => {
+
+//Создаем контейнеры и поле для ввода
+
   const nameOfTask = document.createElement("h1");
   nameOfTask.textContent = "ToDoList";
 
@@ -17,6 +20,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const list = document.createElement("div");
   list.classList.add("list");
+
+  //Здесь создаём 4 асинковых функций для каждого запроса
 
   async function getListOfTasks() {
     const res = await fetch("https://jsonplaceholder.typicode.com/todos");
@@ -66,6 +71,8 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+// Делаем функцию, которая будет рисовать, удалять, изменять ЗАГРУЖЕННЫЕ ТАСКИ
+
   function render(data) {
     data.forEach((element) => {
       const task_container = document.createElement("div");
@@ -87,16 +94,27 @@ window.addEventListener("DOMContentLoaded", () => {
         deleteTask(element.id);
       });
 
+      if (element.completed === false) {
+        task_input.checked = true
+        task_container.style.background = "green";
+      }
+      if (!task_input.checked) {
+        task_container.style.background = "inherit";
+      }
+
       task_input.addEventListener("change", () => {
-        patchTask(element.id, element.completed);
+        patchTask(element.id);
         if (task_input.checked) {
-          task_container.style.background = "orange";
+          task_container.style.background = "green";
         }
         if (!task_input.checked) {
           task_container.style.background = "inherit";
         }
       });
     });
+
+
+// Делаем функцию, которая будет рисовать, удалять, изменять ТАСКИ, КОТОРЫЕ МЫ ВВОДИМ ВНУТРИ Инпута
 
     button_add_task.addEventListener("click", () => {
       const task_container = document.createElement("div");
