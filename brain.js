@@ -1,6 +1,5 @@
 window.addEventListener("DOMContentLoaded", () => {
-
-//Создаем контейнеры и поле для ввода
+  //Создаем контейнеры и поле для ввода
 
   const nameOfTask = document.createElement("h1");
   nameOfTask.textContent = "ToDoList";
@@ -71,7 +70,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-// Делаем функцию, которая будет рисовать, удалять, изменять ЗАГРУЖЕННЫЕ ТАСКИ
+  // Делаем функцию, которая будет рисовать, удалять, изменять ЗАГРУЖЕННЫЕ ТАСКИ
 
   function render(data) {
     data.forEach((element) => {
@@ -95,7 +94,7 @@ window.addEventListener("DOMContentLoaded", () => {
       });
 
       if (element.completed === false) {
-        task_input.checked = true
+        task_input.checked = true;
         task_container.style.background = "green";
       }
       if (!task_input.checked) {
@@ -113,40 +112,41 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-
-// Делаем функцию, которая будет рисовать, удалять, изменять ТАСКИ, КОТОРЫЕ МЫ ВВОДИМ ВНУТРИ Инпута
+    // Делаем функцию, которая будет рисовать, удалять, изменять ТАСКИ, КОТОРЫЕ МЫ ВВОДИМ ВНУТРИ Инпута
 
     button_add_task.addEventListener("click", () => {
-      const task_container = document.createElement("div");
-      const task_input = document.createElement("input");
-      const button_delete = document.createElement("button");
-      task_container.classList.add("list_item");
+      if (input.value !== "") {
+        const task_container = document.createElement("div");
+        const task_input = document.createElement("input");
+        const button_delete = document.createElement("button");
+        task_container.classList.add("list_item");
 
-      task_input.type = "checkbox";
-      task_container.textContent = input.value;
-      button_delete.textContent = "delete";
-      button_delete.id = "button_delete";
-      postNewTask();
+        task_input.type = "checkbox";
+        task_container.textContent = input.value;
+        button_delete.textContent = "delete";
+        button_delete.id = "button_delete";
+        postNewTask();
 
-      input.value = "";
-      task_container.append(button_delete);
-      task_container.prepend(task_input);
-      list.prepend(task_container);
+        input.value = "";
+        task_container.append(button_delete);
+        task_container.prepend(task_input);
+        list.prepend(task_container);
 
-      button_delete.addEventListener("click", () => {
-        list.removeChild(task_container);
-        deleteTask();
-      });
+        button_delete.addEventListener("click", () => {
+          list.removeChild(task_container);
+          deleteTask();
+        });
 
-      task_input.addEventListener("change", () => {
-        patchTask();
-        if (task_input.checked) {
-          task_container.style.background = "orange";
-        }
-        if (!task_input.checked) {
-          task_container.style.background = "inherit";
-        }
-      });
+        task_input.addEventListener("change", () => {
+          patchTask();
+          if (task_input.checked) {
+            task_container.style.background = "green";
+          }
+          if (!task_input.checked) {
+            task_container.style.background = "inherit";
+          }
+        });
+      }
     });
     input_conteiner.prepend(input, button_add_task);
     document.body.prepend(nameOfTask, input_conteiner, header_2, list);
